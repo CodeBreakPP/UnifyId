@@ -1,4 +1,3 @@
-
 from fractions import gcd
 import requests
 import sys
@@ -62,50 +61,54 @@ def is_probable_prime(n, trials = 5):
             return False
     return True
 
-p,q=1,1
+n,e,d,p,q=1,1,1,1,1
 
 while True:
+    while True:
+        try:
+            r = requests.get('https://www.random.org/strings/?num=10&len=10&digits=on&format=plain&rnd=new')
+            a=r.text.split('\n')
+            p=int(''.join(a))
+        except Exception:
+            print Exception.message
+            continue
+
+        if p<3:
+            continue
+
+        if is_probable_prime(p):
+            break
+
+    while True:
+        try:
+            r = requests.get('https://www.random.org/strings/?num=10&len=10&digits=on&format=plain&rnd=new')
+            a=r.text.split('\n')
+            q=int(''.join(a))
+        except Exception:
+            print Exception.message
+            continue
+        
+        if q<3:
+            continue
+
+        if is_probable_prime(q):
+            break
+        
+    n=p*q
+    phi=(p-1)*(q-1)
+
+    e,i = 0,2
+    while i<phi:
+        if gcd( i, phi ) == 1:
+            e = i
+            break
+        i+=1
     try:
-        r = requests.get('https://www.random.org/strings/?num=10&len=10&digits=on&format=plain&rnd=new')
-        a=r.text.split('\n')
-        p=int(''.join(a))
+        d=modinv( e, phi )
     except Exception:
-        print Exception
         continue
+    break
 
-    if p<3:
-        continue
-
-    if is_probable_prime(p):
-        break
-
-while True:
-    try:
-        r = requests.get('https://www.random.org/strings/?num=10&len=10&digits=on&format=plain&rnd=new')
-        a=r.text.split('\n')
-        q=int(''.join(a))
-    except Exception:
-        print Exception
-        continue
-    
-    if q<3:
-        continue
-
-    if is_probable_prime(q):
-        break
-    
-n=p*q
-phi=(p-1)*(q-1)
-
-
-e,i = 0,2
-while i<phi:
-    if gcd( i, phi ) == 1:
-        e = i
-        break
-    i+=1
-
-d=modinv( e, phi )
 
 print "Public Key(n,e) = (" + str(n) + "," + str(e) + ")"
 print "Private Key(n,d) = (" + str(n) + "," + str(d) + ")"
