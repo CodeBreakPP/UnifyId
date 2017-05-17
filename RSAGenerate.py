@@ -8,10 +8,13 @@ def randint(mini,maxi):
     a=mini
     while True:
         length=len(str(maxi))
-        r=requests.get('https://www.random.org/strings/?num='+str(length)+'&len=1&digits=on&format=plain&rnd=new')
-        a=int(''.join(r.text.split('\n')))
-        if a>=mini and a<=maxi:
-            break
+        try:
+            r=requests.get('https://www.random.org/strings/?num='+str(length)+'&len=1&digits=on&format=plain&rnd=new')
+            a=int(''.join(r.text.split('\n')))
+            if a>=mini and a<=maxi:
+                break
+        except Exception:
+            continue
     return a
 
 def egcd(a, b):
@@ -62,10 +65,13 @@ def is_probable_prime(n, trials = 5):
 p,q=1,1
 
 while True:
-
-    r = requests.get('https://www.random.org/strings/?num=10&len=10&digits=on&format=plain&rnd=new')
-    a=r.text.split('\n')
-    p=int(''.join(a))
+    try:
+        r = requests.get('https://www.random.org/strings/?num=10&len=10&digits=on&format=plain&rnd=new')
+        a=r.text.split('\n')
+        p=int(''.join(a))
+    except Exception:
+        print Exception
+        continue
 
     if p<3:
         continue
@@ -74,10 +80,14 @@ while True:
         break
 
 while True:
-
-    r = requests.get('https://www.random.org/strings/?num=10&len=10&digits=on&format=plain&rnd=new')
-    a=r.text.split('\n')
-    q=int(''.join(a))
+    try:
+        r = requests.get('https://www.random.org/strings/?num=10&len=10&digits=on&format=plain&rnd=new')
+        a=r.text.split('\n')
+        q=int(''.join(a))
+    except Exception:
+        print Exception
+        continue
+    
     if q<3:
         continue
 
