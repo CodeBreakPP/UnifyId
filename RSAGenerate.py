@@ -97,5 +97,5 @@ while i<phi:
 
 d=modinv( e, phi )
 
-print "* Public Key(n,e) = (" + str(n) + "," + str(e) + ")"
-print "* Private Key(n,d) = (" + str(n) + "," + str(d) + ")"
+print "Public Key(n,e) = (" + str(n) + "," + str(e) + ")"
+print "Private Key(n,d) = (" + str(n) + "," + str(d) + ")"
